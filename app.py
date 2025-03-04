@@ -19,20 +19,27 @@ def set_bg(image_url):
         unsafe_allow_html=True
     )
 
-# Set Background Image (Fixed Syntax)
-set_bg("https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg")  
+# Set Background Image
+set_bg("https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg")  # Change if needed
 
 # Load the trained model
 model = joblib.load("rock_vs_mine_model.pkl")
 
-# Header with Image
-st.image("rock_vs_mine_banner.png", use_column_width=True)  # Change if needed
+# Header with Image (Ensure the file exists or use a URL)
+try:
+    st.image("rock_vs_mine_banner.png", use_container_width=True)  # Updated from use_column_width
+except:
+    st.warning("⚠️ Banner image not found! Please check the file path.")
 
 # Title with Styling
 st.markdown("<h1 style='text-align: center; color: white;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
 
 # Sidebar for Navigation
-st.sidebar.image("rock_vs_mine_logo.png", width=150)  # Change if needed
+try:
+    st.sidebar.image("rock_vs_mine_logo.png", width=150)  # Ensure the file exists
+except:
+    st.sidebar.warning("⚠️ Logo image not found!")
+
 st.sidebar.title("Navigation")
 st.sidebar.markdown("Upload your CSV file for prediction.")
 
@@ -46,7 +53,7 @@ if uploaded_file is not None:
     # Ensure it has 60 features
     if data.shape[1] == 60:
         st.success("✅ File Uploaded Successfully!")
-        
+
         # Animated Loading Effect
         with st.spinner("Analyzing the data... ⏳"):
             time.sleep(3)  # Simulating processing time
@@ -65,5 +72,6 @@ if uploaded_file is not None:
 
 # Footer
 st.markdown("<h4 style='text-align: center; color: white;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
+
 
 
