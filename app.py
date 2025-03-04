@@ -3,33 +3,15 @@ import pandas as pd
 import joblib
 import time
 
-# Function to set a background image
-def set_bg(image_url):
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image: url("{image_url}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Set Background Image (Your Selected Image)
-set_bg("https://t3.ftcdn.net/jpg/05/65/44/22/360_F_565442263_5aWSeBztZVh6MKaPE1mjtiJPxbqhqWl1.jpg")
-
 # ✅ Load the trained model
 try:
     model = joblib.load("rock_vs_mine_model.pkl")
 except FileNotFoundError:
     st.error("❌ Model file not found! Make sure 'rock_vs_mine_model.pkl' is in the same folder as this script.")
+    st.stop()  # Stop execution if model is missing
 
 # Title with Styling
-st.markdown("<h1 style='text-align: center; color: white;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
 
 # Sidebar
 st.sidebar.title("Navigation")
@@ -42,28 +24,40 @@ if uploaded_file is not None:
     # Read CSV file
     data = pd.read_csv(uploaded_file)
 
-    # Ensure it has 60 features
+    # ✅ Ensure data is numeric and has 60 columns
     if data.shape[1] == 60:
         st.success("✅ File Uploaded Successfully!")
+
+        # Convert all values to numeric (force conversion, replacing errors)
+        data = data.apply(pd.to_numeric, errors="coerce")
+
+        # Fill missing values with 0
+        data = data.fillna(0)
 
         # Animated Loading Effect
         with st.spinner("Analyzing the data... ⏳"):
             time.sleep(3)  # Simulating processing time
-            predictions = model.predict(data)
 
-        # Convert numerical predictions to labels
-        results = ["Mine" if pred == 1 else "Rock" for pred in predictions]
+            try:
+                predictions = model.predict(data)
 
-        # Display Predictions
-        st.write("### Prediction Results:")
-        result_df = pd.DataFrame({"Prediction": results})
-        st.dataframe(result_df)
+                # Convert numerical predictions to labels
+                results = ["Mine" if pred == 1 else "Rock" for pred in predictions]
+
+                # Display Predictions
+                st.write("### Prediction Results:")
+                result_df = pd.DataFrame({"Prediction": results})
+                st.dataframe(result_df)
+
+            except ValueError as e:
+                st.error(f"⚠️ Model Prediction Error: {e}")
 
     else:
         st.error("❌ Uploaded file must have exactly 60 columns.")
 
 # Footer
-st.markdown("<h4 style='text-align: center; color: white;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
+
 
 
 
