@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import joblib
@@ -10,7 +9,7 @@ def set_bg(image_url):
         f"""
         <style>
         .stApp {{
-            background-image: url("{image_url}");
+            background-image: url("{https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -21,7 +20,7 @@ def set_bg(image_url):
     )
 
 # Set Background Image (Replace with your image URL or file path)
-set_bg("https://your-image-url.com/background.jpg")  # Change this!
+set_bg("https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg")  # Change this!
 
 # Load the trained model
 model = joblib.load("rock_vs_mine_model.pkl")
