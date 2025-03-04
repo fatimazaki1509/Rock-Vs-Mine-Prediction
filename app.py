@@ -24,8 +24,8 @@ if uploaded_file is not None:
     # Read CSV file
     data = pd.read_csv(uploaded_file)
 
-    # ✅ Ensure the uploaded data has 59 columns (excluding the label)
-    if data.shape[1] == 59:
+    # ✅ Ensure the uploaded data has 60 columns (excluding the label)
+    if data.shape[1] == 60:
         st.success("✅ File Uploaded Successfully!")
 
         # Convert all values to numeric (force conversion, replacing errors)
