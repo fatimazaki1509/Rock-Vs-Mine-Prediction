@@ -11,7 +11,7 @@ except FileNotFoundError:
     st.stop()  # Stop execution if model is missing
 
 # Title with Styling
-st.markdown("<h1 style='text-align: center;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: blue;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
 
 # Sidebar
 st.sidebar.title("Navigation")
@@ -24,9 +24,13 @@ if uploaded_file is not None:
     # Read CSV file
     data = pd.read_csv(uploaded_file)
 
-    # ✅ Ensure data is numeric and has 60 columns
-    if data.shape[1] == 60:
+    # ✅ Ensure uploaded data has 60 features
+    if data.shape[1] >= 60:
         st.success("✅ File Uploaded Successfully!")
+
+        # If extra column(s) exist (like labels), drop them
+        if data.shape[1] > 60:
+            data = data.iloc[:, :60]  # Select only the first 60 columns
 
         # Convert all values to numeric (force conversion, replacing errors)
         data = data.apply(pd.to_numeric, errors="coerce")
@@ -53,7 +57,7 @@ if uploaded_file is not None:
                 st.error(f"⚠️ Model Prediction Error: {e}")
 
     else:
-        st.error("❌ Uploaded file must have exactly 60 columns.")
+        st.error("❌ Uploaded file must have at least 60 columns.")
 
 # Footer
 st.markdown("<h4 style='text-align: center;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
