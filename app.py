@@ -24,8 +24,8 @@ if uploaded_file is not None:
     # Read CSV file
     data = pd.read_csv(uploaded_file)
 
-    # ✅ Ensure data is numeric and has 60 columns
-    if data.shape[1] == 60:
+    # ✅ Ensure the uploaded data has 59 columns (excluding the label)
+    if data.shape[1] == 59:
         st.success("✅ File Uploaded Successfully!")
 
         # Convert all values to numeric (force conversion, replacing errors)
@@ -34,29 +34,38 @@ if uploaded_file is not None:
         # Fill missing values with 0
         data = data.fillna(0)
 
-        # Animated Loading Effect
-        with st.spinner("Analyzing the data... ⏳"):
-            time.sleep(3)  # Simulating processing time
+        # 🔹 Add a dummy column to match model input size (if needed)
+        data["dummy"] = 0  # Adding a column with zeros to make it 60 columns
 
-            try:
-                predictions = model.predict(data)
+        # Ensure final shape is (n, 60)
+        if data.shape[1] == 60:
+            # Animated Loading Effect
+            with st.spinner("Analyzing the data... ⏳"):
+                time.sleep(3)  # Simulating processing time
 
-                # Convert numerical predictions to labels
-                results = ["Mine" if pred == 1 else "Rock" for pred in predictions]
+                try:
+                    predictions = model.predict(data)
 
-                # Display Predictions
-                st.write("### Prediction Results:")
-                result_df = pd.DataFrame({"Prediction": results})
-                st.dataframe(result_df)
+                    # Convert numerical predictions to labels
+                    results = ["Mine" if pred == 1 else "Rock" for pred in predictions]
 
-            except ValueError as e:
-                st.error(f"⚠️ Model Prediction Error: {e}")
+                    # Display Predictions
+                    st.write("### Prediction Results:")
+                    result_df = pd.DataFrame({"Prediction": results})
+                    st.dataframe(result_df)
+
+                except ValueError as e:
+                    st.error(f"⚠️ Model Prediction Error: {e}")
+
+        else:
+            st.error("⚠️ Error: Incorrect number of columns after adjustment.")
 
     else:
-        st.error("❌ Uploaded file must have exactly 60 columns.")
+        st.error("❌ Uploaded file must have exactly 59 columns (excluding the label).")
 
 # Footer
 st.markdown("<h4 style='text-align: center;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
+
 
 
 
