@@ -12,9 +12,6 @@ except FileNotFoundError:
 
 # Title with Styling
 st.markdown("<h1 style='text-align: center; color: blue;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
-st.write("Uploaded Data Preview:")
-st.write(data.head())  # Display first few rows
-st.write(f"Number of columns: {data.shape[1]}")  # Check column count
 
 # Sidebar
 st.sidebar.title("Navigation")
