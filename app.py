@@ -9,7 +9,7 @@ def set_bg(image_url):
         f"""
         <style>
         .stApp {{
-            background-image: url("{https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg}");
+            background-image: url("{image_url}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -19,20 +19,20 @@ def set_bg(image_url):
         unsafe_allow_html=True
     )
 
-# Set Background Image (Replace with your image URL or file path)
-set_bg("https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg")  # Change this!
+# Set Background Image (Fixed Syntax)
+set_bg("https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg")  
 
 # Load the trained model
 model = joblib.load("rock_vs_mine_model.pkl")
 
 # Header with Image
-st.image("rock_vs_mine_banner.png", use_column_width=True)  # Change this!
+st.image("rock_vs_mine_banner.png", use_column_width=True)  # Change if needed
 
 # Title with Styling
 st.markdown("<h1 style='text-align: center; color: white;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
 
 # Sidebar for Navigation
-st.sidebar.image("rock_vs_mine_logo.png", width=150)  # Change this!
+st.sidebar.image("rock_vs_mine_logo.png", width=150)  # Change if needed
 st.sidebar.title("Navigation")
 st.sidebar.markdown("Upload your CSV file for prediction.")
 
@@ -65,3 +65,5 @@ if uploaded_file is not None:
 
 # Footer
 st.markdown("<h4 style='text-align: center; color: white;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
+
+
