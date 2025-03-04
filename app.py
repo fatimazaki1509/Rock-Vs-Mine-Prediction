@@ -19,27 +19,20 @@ def set_bg(image_url):
         unsafe_allow_html=True
     )
 
-# Set Background Image
-set_bg("https://navalpost.com/wp-content/uploads/2021/05/Submerged_submarine.jpg")  # Change if needed
+# Set Background Image (Deep Sea Sonar Theme)
+set_bg("https://cdn.pixabay.com/photo/2017/08/30/07/51/sea-2697736_1280.jpg")
 
 # Load the trained model
 model = joblib.load("rock_vs_mine_model.pkl")
 
-# Header with Image (Ensure the file exists or use a URL)
-try:
-    st.image("rock_vs_mine_banner.png", use_container_width=True)  # Updated from use_column_width
-except:
-    st.warning("⚠️ Banner image not found! Please check the file path.")
+# Header with Banner Image
+st.image("https://upload.wikimedia.org/wikipedia/commons/3/3a/Rock-Mine_Prediction_Banner.png", use_container_width=True)
 
 # Title with Styling
 st.markdown("<h1 style='text-align: center; color: white;'>Rock vs Mine Prediction</h1>", unsafe_allow_html=True)
 
-# Sidebar for Navigation
-try:
-    st.sidebar.image("rock_vs_mine_logo.png", width=150)  # Ensure the file exists
-except:
-    st.sidebar.warning("⚠️ Logo image not found!")
-
+# Sidebar with Logo
+st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/2/27/Underwater_Radar_Logo.png", width=150)
 st.sidebar.title("Navigation")
 st.sidebar.markdown("Upload your CSV file for prediction.")
 
@@ -72,6 +65,7 @@ if uploaded_file is not None:
 
 # Footer
 st.markdown("<h4 style='text-align: center; color: white;'>Powered by Machine Learning 🧠</h4>", unsafe_allow_html=True)
+
 
 
 
